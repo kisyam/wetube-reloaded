@@ -1,12 +1,11 @@
 import express from "express";
 import morgan from "morgan";
 import globalRouter from "./routers/globalRouter";
-import videoRouter from "./routers/videoRouters";
-import userRouter from "./routers/userRouters";
+import videoRouter from "./routers/videoRouter";
+import userRouter from "./routers/userRouter";
 
 const PORT = 4000;
 
-console.log(process.cwd());
 
 const app = express();
 const logger = morgan("dev");
