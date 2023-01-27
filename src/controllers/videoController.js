@@ -3,7 +3,7 @@ import Video from "../models/Video";
 export const home = async (req, res) => {
   const videos = await Video.find({}).sort({ createdAt: "desc" });
   console.log(videos);
-  return res.render("home", { pageTitle: "Home", videos });
+  return res.status(404).render("home", { pageTitle: "Home", videos });
 };
 
 export const watch = async (req, res) => {
@@ -53,7 +53,7 @@ export const postUpload = async (req, res) => {
     });
     return res.redirect("/");
   } catch (error) {
-    return res.render("upload", {
+    return res.status(400).render("upload", {
       pageTitle: "Upload Video",
       errorMessage: error.message,
     });
