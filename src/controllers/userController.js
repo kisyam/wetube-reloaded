@@ -143,30 +143,67 @@ export const startKakaoLogin = (req, res) => {
   };
   const params = new URLSearchParams(config).toString();
   const finalUrl = `${baseUrl}?${params}`;
-  console.log("params", params);
   return res.redirect(finalUrl);
 };
 
 export const finishKakaoLogin = async (req, res) => {
   const baseUrl = "https://kauth.kakao.com/oauth/token";
-  const { code } = req.query;
   const config = {
     grant_type: "authorization_code",
     client_id: process.env.KK_RESTAPI,
     redirect_uri: process.env.KK_URI,
-    code: code,
+    code: req.query.code,
   };
   const params = new URLSearchParams(config).toString();
   const finalUrl = `${baseUrl}?${params}`;
   const tokenRequest = await (
     await fetch(finalUrl, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
     })
   ).json();
   console.log("tokenRequest", tokenRequest);
+
+  if ("access_token" in tokenRequest) {
+    const { access_token } = tokenRequest;
+    const apiUrl = "https://kapi.kakao.com/v2/user/me";
+    const userData = await (
+      await fetch(`${apiUrl}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+    ).json();
+    // res.send(JSON.stringify(userData));
+
+    const kakaoAccount = userData.kakao_account;
+    const kakaoProfile = kakaoAccount.profile;
+    console.log("유저데이터", userData);
+    console.log("이메일", kakaoAccount.email);
+
+    if (
+      kakaoAccount.is_email_valid === false ||
+      kakaoAccount.is_email_verified === false
+    ) {
+      return res.redirect("/login");
+    }
+    let user = await User.findOne({ email: kakaoAccount.email });
+    if (!user) {
+      user = await User.create({
+        name: kakaoProfile.nickname,
+        socialOnly: true,
+        username: kakaoProfile.nickname,
+        email: kakaoAccount.email,
+        password: "",
+        avatarUrl: kakaoProfile.profile_image_url,
+        location: "",
+      });
+    }
+    req.session.loggedIn = true;
+    req.session.user = user;
+    return res.redirect("/");
+  } else {
+    return res.redirect("/login");
+  }
 };
 
 export const logout = (req, res) => {
