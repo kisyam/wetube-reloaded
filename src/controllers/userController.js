@@ -249,10 +249,5 @@ export const postEdit = async (req, res) => {
   );
   req.session.user = updatedUser;
   return res.redirect("/users/edit");
-
-  // const result = req.session.user === req.body;
-  // console.log(req.session.user);
-  // console.log(req.body);
-  // console.log(result);
 };
 export const see = (req, res) => res.send("See User");
