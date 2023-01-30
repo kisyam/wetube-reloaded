@@ -1,6 +1,7 @@
 import User from "../models/User";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
+import { reset } from "nodemon";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
@@ -177,8 +178,6 @@ export const finishKakaoLogin = async (req, res) => {
 
     const kakaoAccount = userData.kakao_account;
     const kakaoProfile = kakaoAccount.profile;
-    console.log("유저데이터", userData);
-    console.log("이메일", kakaoAccount.email);
 
     if (
       kakaoAccount.is_email_valid === false ||
@@ -221,6 +220,7 @@ export const postEdit = async (req, res) => {
       user: { _id, email, username },
     },
     body: { name, email: newEmail, username: newUsername, location },
+    file,
   } = req;
 
   if (newEmail !== email || newUsername !== username) {
@@ -250,4 +250,42 @@ export const postEdit = async (req, res) => {
   req.session.user = updatedUser;
   return res.redirect("/users/edit");
 };
+
+export const getChangePassword = (req, res) => {
+  if (req.session.user.socialOnly === true) {
+    return res.redirect("/");
+  }
+  return res.render("users/change-password", { pageTitle: "Change Password" });
+};
+
+export const postChangePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { oldPassword, newPassword, newPasswordConfirmation },
+  } = req;
+
+  const user = await User.findById(_id);
+  console.log(user);
+  const ok = await bcrypt.compare(oldPassword, user.password);
+
+  if (!ok) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "The current password is not correct",
+    });
+  }
+  if (newPassword !== newPasswordConfirmation) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "The password does not match the confirmation",
+    });
+  }
+
+  user.password = newPassword;
+  await user.save();
+  return res.redirect("/users/logout");
+};
+
 export const see = (req, res) => res.send("See User");
