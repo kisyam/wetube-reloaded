@@ -6,12 +6,10 @@ block content
   form(method="POST")
     input(placeholder="Username", name="username", type="text", required)
     input(placeholder="Password", name="password", type="password", required)
-    input(type="submit", value="Login")
-    br
-    a(href="users/github/start") Continue With Github &rarr;
-    br
-    a(href="users/kakao/start") Login with Kakao &rarr;
-  hr
-  div
-    span Don't have an account?
-      a(href="/join") Create one now &rarr;
+    input(type="submit", value="Login") 
+    .social-login
+      include partials/github-login
+      include partials/kakao-login
+  .auth-switch
+    span Don't have an account?&nbsp;
+    a(href="/join") Create one now &rarr;

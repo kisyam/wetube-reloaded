@@ -1,0 +1,48 @@
+.social-login {
+  padding-top: 40px;
+  margin-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  .github-login {
+    padding: 12px 20px;
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: #6b7280;
+    border-radius: 12px;
+    transition: opacity ease 0.3s;
+    i {
+      color: white;
+      font-size: 25px;
+      margin-right: 10px;
+    }
+    span {
+      font-size: 21px;
+      color: white;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  .kakao-login {
+    padding: 12px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fee500;
+    border-radius: 12px;
+    transition: opacity ease 0.3s;
+    i {
+      color: #000000;
+      font-size: 25px;
+      margin-right: 10px;
+    }
+    span {
+      font-size: 21px;
+      color: rgb(0, 0, 0.85);
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
