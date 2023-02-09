@@ -101,9 +101,11 @@ const handleMouseLeave = () => {
     controlsTimeout = setTimeout(hideControls, 3000);
 };
 
-const handleEnded = () => {
+const handleEnded = async () => {
     playBtnIcon.classList = "fas fa-play";
     video.paused = video.pause();
+    const { id } = videoContainer.dataset;
+    await fetch(`/api/videos/${id}/view`, { method: "POST" });
 };
 
 //handleMouseMove 와 로직이 겹친다. 함수를 하나 만들어야 할까?
