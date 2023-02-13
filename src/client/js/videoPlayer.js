@@ -127,7 +127,7 @@ const handleKeydown = (event) => {
     }
 };
 
-// ⌛️ space 정지, 재생 구현
+// ✅ space 정지, 재생 구현
 // ✅ video 화면 클릭시 정지, 재생 구현 + 클릭 했을 때 애니메이션 추가
 // ✅ video 끝나면 재생버튼으로 아이콘 바꾸기
 // ✅ video 화면 더블클릭시 fullScreen 구현
