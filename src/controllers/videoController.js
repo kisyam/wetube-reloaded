@@ -1,5 +1,6 @@
 import Video from "../models/Video";
 import User from "../models/User";
+import { logout } from "./userController";
 
 export const home = async (req, res) => {
     const videos = await Video.find({})
@@ -122,4 +123,9 @@ export const registerView = async (req, res) => {
     video.meta.views += 1;
     await video.save();
     return res.sendStatus(200);
+};
+
+export const createComment = async (req, res) => {
+    console.log(req.body);
+    return res.end();
 };

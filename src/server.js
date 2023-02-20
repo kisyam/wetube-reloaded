@@ -21,6 +21,7 @@ app.use((req, res, next) => {
 });
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); //! string을 받아서 JS Object로 바꿔준다. JSON.parse
 
 app.use(
     session({
