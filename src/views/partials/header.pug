@@ -1,28 +1,31 @@
-header
-  a.header__logo(href="/")
-    i.fab.fa-youtube
-    span Premium
-    span KR
-  nav
-    ul
-      li
-        a(href="/search")
-          i.fas.fa-search
-      if loggedIn
-        li
-          a(href="/videos/upload") Upload Video
-        li
-          a(href="/users/edit") Edit Profile
-        li
-          a(href="/users/logout") Log Out
-        li
-          a(href=`/users/${loggedInUser._id}`)
-            if !loggedInUser.avatarUrl
-              span 😀
+.top
+    header
+        i.fa-solid.fa-bars
+        a.header__logo(href="/")
+            i.fab.fa-youtube
+            span Premium
+            span KR
+    .menu
+        
+        ul
+            li
+                a(href="/search")
+                    i.fas.fa-search
+            if loggedIn
+                li
+                    a(href="/videos/upload") Upload Video
+                li
+                    a(href="/users/edit") Edit Profile
+                li
+                    a(href="/users/logout") Log Out
+                li
+                    a(href=`/users/${loggedInUser._id}`)
+                if !loggedInUser.avatarUrl
+                    span 😀
+                else
+                    img.header__avatar(src="/" + loggedInUser.avatarUrl)
             else
-              img.header__avatar(src="/" + loggedInUser.avatarUrl)
-      else
-        li
-          a(href="/login") Login
-        li
-          a.header__btn(href="/join") Join
+                li
+                    a(href="/login") Login
+                li
+                    a.header__btn(href="/join") Join

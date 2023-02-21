@@ -1,7 +1,7 @@
 import multer from "multer";
 
 export const localsMiddleware = (req, res, next) => {
-    res.locals.loggedIn = Boolean(req.session.loggedIn); //Boolean값이 필요한 이유?
+    res.locals.loggedIn = Boolean(req.session.loggedIn); //? Boolean값이 필요한 이유?
     res.locals.siteName = "Wetube";
     res.locals.loggedInUser = req.session.user || {};
     next();
@@ -32,7 +32,7 @@ export const avatarUpload = multer({
     },
 });
 export const videoUpload = multer({
-    dest: "uploads/videos",
+    dest: "uploads/videos/",
     limits: {
         fileSize: 10000000,
     },
