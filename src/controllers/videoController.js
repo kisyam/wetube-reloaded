@@ -150,5 +150,19 @@ export const createComment = async (req, res) => {
 };
 
 export const deleteComment = async (req, res) => {
-    return res.end();
+    const {
+        params: { id },
+        session: {
+            user: { _id: userId },
+        },
+    } = req;
+    const comment = await Comment.findById(id).populate("owner");
+    console.log(id);
+    const videoId = comment.video;
+    if (userId !== String(comment.owner._id)) {
+        return res.sendStatus(403);
+    }
+    await Video.updateOne({ _id: videoId }, { $pullAll: { comments: [id] } });
+    await Comment.findByIdAndDelete(id);
+    return;
 };

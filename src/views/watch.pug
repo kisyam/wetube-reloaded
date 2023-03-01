@@ -44,7 +44,7 @@ block content
     if loggedIn
         .video__add-comments
             form.video__comment-form#commentForm
-                textarea(cols="30", rows="10", placeholder="Write a nice comment...") 
+                textarea(cols="35", rows="3", placeholder="Write a nice comment...") 
                 button Add Comment
     div.video__comments
         ul
@@ -52,9 +52,11 @@ block content
                 li.video__comment(data-id=comment._id)
                     i.fas.fa-comment
                     span #{comment.text}
-                    if loggedIn
-                            if String(loggedInUser._id) === String(comment.owner)
-                                span#deleteCommentBtn ❌
+                    .control
+                        if loggedIn
+                                if String(loggedInUser._id) === String(comment.owner)
+                                    i.fas.fa-pen#newEditCommentBtn
+                                    i.fas.fa-trash#newDeleteCommentBtn
             
 
 block scripts

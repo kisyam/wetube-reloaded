@@ -1,31 +1,33 @@
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
-const deleteBtn = document.querySelectorAll("#deleteCommentBtn");
+const deleteBtns = document.querySelectorAll("#newDeleteCommentBtn");
 
-const addComment = (text, commentId) => {
+const addComment = (text, id) => {
     const videoComments = document.querySelector(".video__comments ul");
     const newComment = document.createElement("li");
-    newComment.dataset.id = id;
+    newComment.dataset.id = id; //* comment objectId
     newComment.className = "video__comment";
     const icon = document.createElement("i");
     icon.className = "fas fa-comment";
     const span = document.createElement("span");
     span.innerText = ` ${text}`;
-    const span2 = document.createElement("span");
-    span2.innerText = "❌";
-    span2.dataset.id = commentId;
-    span2.dataset.videoId = videoContainer.dataset.id;
-    span2.id = "newDeleteCommentBtn";
-    span2.className = "video__comment-delete";
+    const control = document.createElement("div");
+    control.className = "control";
+    const icon2 = document.createElement("i");
+    icon2.className = "fas fa-trash";
+    icon2.id = "newDeleteCommentBtn";
+    const icon3 = document.createElement("i");
+    icon3.className = "fas fa-pen";
+    icon3.id = "newEditCommentBtn";
+    control.appendChild(icon3);
+    control.appendChild(icon2);
     newComment.appendChild(icon);
     newComment.appendChild(span);
-    newComment.appendChild(span2);
+    newComment.appendChild(control);
     videoComments.prepend(newComment);
     const newDeleteCommentBtn = document.querySelector("#newDeleteCommentBtn");
     newDeleteCommentBtn.addEventListener("click", handleDelete);
 };
-
-// const deleteComment = (id) => {};
 
 const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,14 +51,21 @@ const handleSubmit = async (event) => {
     }
 };
 
-const handleDelete = async () => {
+const handleDelete = async (event) => {
+    const parentNode = event.target.parentNode.parentNode;
+    const commentId = parentNode.dataset.id;
+    console.log(commentId);
     const response = await fetch(`/api/comments/${commentId}/delete`, {
         method: "DELETE",
-        headers: {
-            "Content-Type": "application/json", //! json string이라는 것을 알려줌.
-        },
-        body: JSON.stringify({ text }),
     });
+    if (response.status === 403) {
+        return;
+    }
+
+    if (response.status === 200) {
+        parentNode.remove();
+        deleteComment();
+    }
 };
 
 if (form) {

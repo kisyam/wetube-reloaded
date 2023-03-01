@@ -1,4 +1,5 @@
 .video__comments {
+    //* ul
     display: flex;
     flex-direction: column;
     max-width: 320px;
@@ -6,10 +7,42 @@
     margin: 0 auto;
     margin-top: 20px;
     .video__comment {
+        //* li
         padding: 10px;
         border-radius: 50px;
         background-color: white;
         color: black;
         margin-bottom: 10px;
+        display: flex;
+        box-sizing: border-box;
+        .fa-comment {
+            display: flex;
+            justify-content: flex-start;
+            margin-right: 20px;
+        }
+        span {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .control {
+            display: flex;
+            justify-content: flex-end;
+            .fa-pen {
+                cursor: pointer;
+                margin-right: 10px;
+                transition: 0.2s ease-in-out;
+                &:hover {
+                    transform: scale(1.2);
+                }
+            }
+            .fa-trash {
+                cursor: pointer;
+                transition: 0.2s ease-in-out;
+                &:hover {
+                    transform: scale(1.2);
+                }
+            }
+        }
     }
 }
