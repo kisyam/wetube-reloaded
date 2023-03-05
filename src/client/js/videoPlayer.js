@@ -122,8 +122,13 @@ const handleControlsKeep = () => {
 };
 
 const handleKeydown = (event) => {
-    if (event.code === "Space") {
+    console.log("keyCode");
+    if (event.keyCode === 32) {
         return handlePlayClick();
+    }
+
+    if (event.keyCode === 70) {
+        return handleFullscreen();
     }
 };
 
@@ -145,4 +150,4 @@ video.addEventListener("ended", handleEnded);
 video.addEventListener("mousemove", handleMouseMove);
 video.addEventListener("mouseleave", handleMouseLeave);
 videoControls.addEventListener("mouseover", handleControlsKeep);
-document.addEventListener("keydown", handleKeydown, true);
+document.addEventListener("keydown", handleKeydown);

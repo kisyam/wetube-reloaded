@@ -1,6 +1,7 @@
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
 const deleteBtns = document.querySelectorAll("#newDeleteCommentBtn");
+const editBtns = document.querySelectorAll("#newEditCommentBtn");
 
 const addComment = (text, id) => {
     const videoComments = document.querySelector(".video__comments ul");
@@ -51,6 +52,11 @@ const handleSubmit = async (event) => {
     }
 };
 
+const handleEdit = async (event) => {
+    const comment = event.target.parentNode.parentNode;
+    console.log(comment.innerText);
+};
+
 const handleDelete = async (event) => {
     const parentNode = event.target.parentNode.parentNode;
     const commentId = parentNode.dataset.id;
@@ -64,7 +70,6 @@ const handleDelete = async (event) => {
 
     if (response.status === 200) {
         parentNode.remove();
-        deleteComment();
     }
 };
 
@@ -75,5 +80,10 @@ if (form) {
 if (deleteBtns) {
     deleteBtns.forEach((deleteBtn) => {
         deleteBtn.addEventListener("click", handleDelete);
+    });
+}
+if (editBtns) {
+    editBtns.forEach((editBtn) => {
+        editBtn.addEventListener("click", handleEdit);
     });
 }

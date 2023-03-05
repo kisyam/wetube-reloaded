@@ -88,6 +88,7 @@ const handleStart = () => {
     actionBtn.addEventListener("click", handleStop);
     recorder = new MediaRecorder(stream);
     recorder.ondataavailable = (event) => {
+        //* 녹화가 멈추면 발생하는 이벤트
         console.log(event.data);
         videoFile = URL.createObjectURL(event.data);
         video.srcObject = null;

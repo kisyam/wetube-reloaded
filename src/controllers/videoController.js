@@ -164,5 +164,5 @@ export const deleteComment = async (req, res) => {
     }
     await Video.updateOne({ _id: videoId }, { $pullAll: { comments: [id] } });
     await Comment.findByIdAndDelete(id);
-    return;
+    return res.sendStatus(200);
 };
