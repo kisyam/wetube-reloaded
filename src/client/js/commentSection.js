@@ -54,7 +54,24 @@ const handleSubmit = async (event) => {
 
 const handleEdit = async (event) => {
     const comment = event.target.parentNode.parentNode;
-    console.log(comment.innerText);
+    const commentId = parentNode.dataset.id;
+    const text = comment.innerText;
+    const response = await fetch(`/api/comments/${commentId}/edit`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json", //! json string이라는 것을 알려줌.
+        },
+        body: JSON.stringify({ text }),
+    });
+};
+
+const handleEditBtn = (event) => {
+    const comment = event.target.parentNode.parentNode.childNodes[1];
+    comment.classList.add("edit-line");
+    comment.contentEditable = true;
+    event.target.className = "fas fa-check";
+    event.target.removeEventListener("click", handleEditBtn);
+    event.target.addEventListener("click", handleEdit);
 };
 
 const handleDelete = async (event) => {
@@ -84,6 +101,6 @@ if (deleteBtns) {
 }
 if (editBtns) {
     editBtns.forEach((editBtn) => {
-        editBtn.addEventListener("click", handleEdit);
+        editBtn.addEventListener("click", handleEditBtn);
     });
 }

@@ -166,3 +166,13 @@ export const deleteComment = async (req, res) => {
     await Comment.findByIdAndDelete(id);
     return res.sendStatus(200);
 };
+
+export const editComment = async () => {
+    const {
+        params: { id },
+        session: {
+            user: { _id: userId },
+        },
+    } = req;
+    const comment = await Comment.findById(id).populate("owner");
+};

@@ -36,6 +36,14 @@
                     transform: scale(1.2);
                 }
             }
+            .fa-check {
+                cursor: pointer;
+                margin-right: 10px;
+                transition: 0.2s ease-in-out;
+                &:hover {
+                    transform: scale(1.2);
+                }
+            }
             .fa-trash {
                 cursor: pointer;
                 transition: 0.2s ease-in-out;
@@ -43,6 +51,10 @@
                     transform: scale(1.2);
                 }
             }
+        }
+        .edit-line {
+            color: red;
+            border-bottom: 1px solid black;
         }
     }
 }
