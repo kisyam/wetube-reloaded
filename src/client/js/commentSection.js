@@ -1,7 +1,7 @@
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
-const deleteBtns = document.querySelectorAll("#newDeleteCommentBtn");
-const editBtns = document.querySelectorAll("#newEditCommentBtn");
+const deleteBtns = document.querySelectorAll(".newDeleteCommentBtn");
+const editBtns = document.querySelectorAll(".newEditCommentBtn");
 
 const addComment = (text, id) => {
     const videoComments = document.querySelector(".video__comments ul");
@@ -16,18 +16,20 @@ const addComment = (text, id) => {
     control.className = "control";
     const icon2 = document.createElement("i");
     icon2.className = "fas fa-trash";
-    icon2.id = "newDeleteCommentBtn";
+    icon2.classList.add("newDeleteCommentBtn");
     const icon3 = document.createElement("i");
     icon3.className = "fas fa-pen";
-    icon3.id = "newEditCommentBtn";
+    icon3.classList.add("newEditCommentBtn");
     control.appendChild(icon3);
     control.appendChild(icon2);
     newComment.appendChild(icon);
     newComment.appendChild(span);
     newComment.appendChild(control);
     videoComments.prepend(newComment);
-    const newDeleteCommentBtn = document.querySelector("#newDeleteCommentBtn");
+    const newDeleteCommentBtn = document.querySelector(".newDeleteCommentBtn");
     newDeleteCommentBtn.addEventListener("click", handleDelete);
+    const newEditCommentBtn = document.querySelector(".newEditCommentBtn");
+    newEditCommentBtn.addEventListener("click", handleEditBtn);
 };
 
 const handleSubmit = async (event) => {
@@ -54,29 +56,67 @@ const handleSubmit = async (event) => {
 
 const handleEdit = async (event) => {
     const comment = event.target.parentNode.parentNode;
-    const commentId = parentNode.dataset.id;
+    const commentId = comment.dataset.id;
     const text = comment.innerText;
-    const response = await fetch(`/api/comments/${commentId}/edit`, {
+    const response = await fetch(`/api/videos/${commentId}/edit`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json", //! json string이라는 것을 알려줌.
         },
         body: JSON.stringify({ text }),
     });
+    if (response.status === 403) {
+        return;
+    }
+
+    if (response.status === 200) {
+        event.target.parentNode.parentNode.childNodes[1].classList.remove(
+            "edit-line"
+        );
+        event.target.parentNode.parentNode.childNodes[1].contentEditable = false;
+        event.target.className = "fas fa-pen";
+        event.target.removeEventListener("click", handleEdit);
+        event.target.addEventListener("click", handleEditBtn);
+    }
 };
 
 const handleEditBtn = (event) => {
-    const comment = event.target.parentNode.parentNode.childNodes[1];
-    comment.classList.add("edit-line");
-    comment.contentEditable = true;
-    event.target.className = "fas fa-check";
-    event.target.removeEventListener("click", handleEditBtn);
-    event.target.addEventListener("click", handleEdit);
+    const commentText = event.target.parentNode.parentNode.childNodes[1];
+    const commentId = event.target.parentNode.parentNode.dataset.id;
+
+    for (let i = 0; i < editBtns.length; i++) {
+        console.log(editBtns[i].parentNode.parentNode.dataset.id);
+        console.log(commentId);
+        if (editBtns[i].parentNode.parentNode.dataset.id === commentId) {
+            console.log("Correct");
+            editBtns[i].parentNode.parentNode.childNodes[1].classList.add(
+                "edit-line"
+            );
+            editBtns[
+                i
+            ].parentNode.parentNode.childNodes[1].contentEditable = true;
+            event.target.className = "fas fa-check";
+            console.log("hi");
+            editBtns[i].removeEventListener("click", handleEditBtn);
+            editBtns[i].addEventListener("click", handleEdit);
+        } else {
+            console.log("incorrect");
+            editBtns[i].parentNode.parentNode.childNodes[1].classList.remove(
+                "edit-line"
+            );
+            editBtns[
+                i
+            ].parentNode.parentNode.childNodes[1].contentEditable = false;
+            editBtns[i].className = "fas fa-pen";
+            editBtns[i].removeEventListener("click", handleEdit);
+            editBtns[i].addEventListener("click", handleEditBtn);
+        }
+    }
 };
 
 const handleDelete = async (event) => {
-    const parentNode = event.target.parentNode.parentNode;
-    const commentId = parentNode.dataset.id;
+    const comment = event.target.parentNode.parentNode;
+    const commentId = comment.dataset.id;
     console.log(commentId);
     const response = await fetch(`/api/comments/${commentId}/delete`, {
         method: "DELETE",
@@ -86,7 +126,7 @@ const handleDelete = async (event) => {
     }
 
     if (response.status === 200) {
-        parentNode.remove();
+        comment.remove();
     }
 };
 
@@ -104,3 +144,7 @@ if (editBtns) {
         editBtn.addEventListener("click", handleEditBtn);
     });
 }
+
+//* ✅ 댓글 수정 구현
+//* ✅ 댓글 삭제 구현
+//* ✅ 댓글 삭제 구현

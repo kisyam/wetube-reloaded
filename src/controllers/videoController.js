@@ -167,12 +167,20 @@ export const deleteComment = async (req, res) => {
     return res.sendStatus(200);
 };
 
-export const editComment = async () => {
+export const editComment = async (req, res) => {
     const {
+        body: { text },
         params: { id },
         session: {
             user: { _id: userId },
         },
     } = req;
     const comment = await Comment.findById(id).populate("owner");
+    if (userId !== String(comment.owner._id)) {
+        return res.sendStatus(403);
+    }
+    await Comment.findByIdAndUpdate(id, {
+        text,
+    });
+    return res.sendStatus(200);
 };
