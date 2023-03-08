@@ -1,7 +1,7 @@
 const videoContainer = document.getElementById("videoContainer");
 const form = document.getElementById("commentForm");
-const deleteBtns = document.querySelectorAll(".newDeleteCommentBtn");
-const editBtns = document.querySelectorAll(".newEditCommentBtn");
+const deleteBtns = document.querySelectorAll("#newDeleteCommentBtn");
+let editBtns = document.querySelectorAll("#newEditCommentBtn");
 
 const addComment = (text, id) => {
     const videoComments = document.querySelector(".video__comments ul");
@@ -16,19 +16,19 @@ const addComment = (text, id) => {
     control.className = "control";
     const icon2 = document.createElement("i");
     icon2.className = "fas fa-trash";
-    icon2.classList.add("newDeleteCommentBtn");
+    icon2.id = "newDeleteCommentBtn";
     const icon3 = document.createElement("i");
     icon3.className = "fas fa-pen";
-    icon3.classList.add("newEditCommentBtn");
+    icon3.id = "newEditCommentBtn";
     control.appendChild(icon3);
     control.appendChild(icon2);
     newComment.appendChild(icon);
     newComment.appendChild(span);
     newComment.appendChild(control);
     videoComments.prepend(newComment);
-    const newDeleteCommentBtn = document.querySelector(".newDeleteCommentBtn");
+    const newDeleteCommentBtn = document.querySelector("#newDeleteCommentBtn");
     newDeleteCommentBtn.addEventListener("click", handleDelete);
-    const newEditCommentBtn = document.querySelector(".newEditCommentBtn");
+    const newEditCommentBtn = document.querySelector("#newEditCommentBtn");
     newEditCommentBtn.addEventListener("click", handleEditBtn);
 };
 
@@ -81,6 +81,8 @@ const handleEdit = async (event) => {
 };
 
 const handleEditBtn = (event) => {
+    editBtns = document.querySelectorAll("#newEditCommentBtn");
+    console.log("editBtns", editBtns.length);
     const commentText = event.target.parentNode.parentNode.childNodes[1];
     const commentId = event.target.parentNode.parentNode.dataset.id;
 
@@ -95,12 +97,13 @@ const handleEditBtn = (event) => {
             editBtns[
                 i
             ].parentNode.parentNode.childNodes[1].contentEditable = true;
-            event.target.className = "fas fa-check";
+            editBtns[i].className = "fas fa-check";
             console.log("hi");
             editBtns[i].removeEventListener("click", handleEditBtn);
             editBtns[i].addEventListener("click", handleEdit);
         } else {
             console.log("incorrect");
+            console.log(editBtns.length);
             editBtns[i].parentNode.parentNode.childNodes[1].classList.remove(
                 "edit-line"
             );
