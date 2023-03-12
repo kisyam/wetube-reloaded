@@ -27,13 +27,7 @@ videoRouter
     .all(protectorMiddleware)
     .get(getUpload)
     .post(
-        videoUpload.fields([
-            {
-                name: "video",
-                maxCount: 1,
-            },
-            { name: "thumb", maxCount: 1 },
-        ]),
+        videoUpload.fields([{ name: "video" }, { name: "thumb" }]),
         postUpload
     );
 
