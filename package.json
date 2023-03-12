@@ -12,8 +12,7 @@
         "build:server": "babel src -d build",
         "build:assets": "webpack --mode=production",
         "dev:server": "nodemon",
-        "dev:assets": "webpack --mode=development -w",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+        "dev:assets": "webpack --mode=development -w"
     },
     "author": "Nicolas",
     "license": "MIT",
@@ -35,7 +34,8 @@
         "multer": "^1.4.5-lts.1",
         "node-fetch": "^2.6.1",
         "pug": "^3.0.2",
-        "regenerator-runtime": "^0.13.11"
+        "regenerator-runtime": "^0.13.11",
+        "nodemon": "^2.0.20"
     },
     "devDependencies": {
         "@babel/cli": "^7.21.0",
@@ -45,7 +45,6 @@
         "babel-loader": "^9.1.2",
         "css-loader": "^6.7.3",
         "mini-css-extract-plugin": "^2.7.2",
-        "nodemon": "^2.0.20",
         "sass": "^1.58.0",
         "sass-loader": "^13.2.0",
         "style-loader": "^3.3.1",
