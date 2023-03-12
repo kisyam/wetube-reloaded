@@ -82,15 +82,12 @@ const handleEdit = async (event) => {
 
 const handleEditBtn = (event) => {
     editBtns = document.querySelectorAll("#newEditCommentBtn");
-    console.log("editBtns", editBtns.length);
-    const commentText = event.target.parentNode.parentNode.childNodes[1];
     const commentId = event.target.parentNode.parentNode.dataset.id;
 
     for (let i = 0; i < editBtns.length; i++) {
         console.log(editBtns[i].parentNode.parentNode.dataset.id);
         console.log(commentId);
         if (editBtns[i].parentNode.parentNode.dataset.id === commentId) {
-            console.log("Correct");
             editBtns[i].parentNode.parentNode.childNodes[1].classList.add(
                 "edit-line"
             );
@@ -98,11 +95,9 @@ const handleEditBtn = (event) => {
                 i
             ].parentNode.parentNode.childNodes[1].contentEditable = true;
             editBtns[i].className = "fas fa-check";
-            console.log("hi");
             editBtns[i].removeEventListener("click", handleEditBtn);
             editBtns[i].addEventListener("click", handleEdit);
         } else {
-            console.log("incorrect");
             console.log(editBtns.length);
             editBtns[i].parentNode.parentNode.childNodes[1].classList.remove(
                 "edit-line"
@@ -149,5 +144,4 @@ if (editBtns) {
 }
 
 //* ✅ 댓글 수정 구현
-//* ✅ 댓글 삭제 구현
 //* ✅ 댓글 삭제 구현
