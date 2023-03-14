@@ -49,6 +49,8 @@ export const publicOnlyMiddleware = (req, res, next) => {
     }
 };
 
+console.log(process.env.NODE_ENV);
+
 export const avatarUpload = multer({
     dest: "uploads/avatars/",
     limits: { fileSize: 3000000 },
