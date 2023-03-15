@@ -141,7 +141,7 @@ playBtn.addEventListener("click", handlePlayClick);
 video.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
-video.addEventListener("loadeddata", handleLoadedMetadata);
+// video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullscreen);
@@ -154,4 +154,4 @@ document.addEventListener("keydown", handleKeydown);
 
 video.readyState
     ? handleMetadata()
-    : video.addEventListener("loadedmetadata", handleMetadata);
+    : video.addEventListener("loadedmetadata", handleLoadedMetadata);
