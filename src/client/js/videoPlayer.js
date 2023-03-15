@@ -153,5 +153,5 @@ videoControls.addEventListener("mouseover", handleControlsKeep);
 document.addEventListener("keydown", handleKeydown);
 
 video.readyState
-    ? handleMetadata()
+    ? handleLoadedMetadata()
     : video.addEventListener("loadedmetadata", handleLoadedMetadata);
