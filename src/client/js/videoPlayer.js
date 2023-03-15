@@ -151,3 +151,7 @@ video.addEventListener("mousemove", handleMouseMove);
 video.addEventListener("mouseleave", handleMouseLeave);
 videoControls.addEventListener("mouseover", handleControlsKeep);
 document.addEventListener("keydown", handleKeydown);
+
+video.readyState
+    ? handleMetadata()
+    : video.addEventListener("loadedmetadata", handleMetadata);
